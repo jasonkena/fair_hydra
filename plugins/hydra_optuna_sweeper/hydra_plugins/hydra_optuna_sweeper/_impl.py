@@ -253,17 +253,8 @@ class OptunaSweeperImpl(Sweeper):
                 )
             params = dict(trial.params)
             params.update(fixed_params)
-            if not hasattr(trial, "_trial_id"):
-                log.warning(
-                    "Optuna trial does not have _trial_id attribute, not passing _trial_id into overrides"
-                )
-            else:
-                if "_trial_id" in params:
-                    log.warning(
-                        "_trial_id is already in params, not overriding it with Optuna trial _trial_id"
-                    )
-                else:
-                    params["_trial_id"] = trial._trial_id
+            if "_trial_id" in params:
+                params["_trial_id"] = trial._trial_id
 
             overrides.append(tuple(f"{name}={val}" for name, val in params.items()))
         return overrides
